@@ -1,0 +1,16 @@
+-- Query to list all tables in the cwa schema
+SELECT 
+    TABLE_SCHEMA,
+    TABLE_NAME,
+    TABLE_TYPE
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA = 'cwa'
+ORDER BY TABLE_NAME;
+
+-- If you want to see ALL schemas and tables:
+-- SELECT 
+--     TABLE_SCHEMA,
+--     TABLE_NAME,
+--     TABLE_TYPE
+-- FROM INFORMATION_SCHEMA.TABLES
+-- ORDER BY TABLE_SCHEMA, TABLE_NAME;

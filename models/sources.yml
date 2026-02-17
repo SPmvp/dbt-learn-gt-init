@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: onprem_db
+    description: "On-premises SQL Server database"
+    schema: cwa  # Change this to your schema name
+    tables:
+      - name:  test # Replace with your actual table name
+        description: "Description of your table"
+        # Add more tables as needed:
+      # - name: another_table
+      #   description: "Another table description"
