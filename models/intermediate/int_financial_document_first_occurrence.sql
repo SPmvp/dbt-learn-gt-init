@@ -1,9 +1,9 @@
 {{
     config(
-        materialized = 'table',
+        materialized = 'view',
         description  = 'All-time first occurrence date per CaseId for Nemhandel (EAN) and MaterialSupplier. '
                      + 'No date filter intentionally — downstream models filter by billing period. '
-                     + 'Materialized as a table because it aggregates across the full FinancialDocument history.'
+                     + 'Materialized as a view — change to table once a refresh schedule is in place.'
     )
 }}
 
