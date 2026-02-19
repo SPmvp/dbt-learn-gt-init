@@ -1,12 +1,30 @@
 version: 2
 
 sources:
-  - name: onprem_db
-    description: "On-premises SQL Server database"
-    schema: cwa  # Change this to your schema name
+
+  # ── Source 1: CWA (default database — no prefix needed in queries) ───────────
+  # Server:   sql-ecb.scalepoint.lan
+  # Database: CWA  (same as dbt target database, so no override needed)
+  - name: cwa
+    database: CWA
+    schema: cwa
+    description: Live CWA operational database on sql-ecb.scalepoint.lan
     tables:
-      - name:  test # Replace with your actual table name
-        description: "Description of your table"
-        # Add more tables as needed:
-      # - name: another_table
-      #   description: "Another table description"
+      - name: FinancialDocument
+      - name: FinancialDocumentLine
+      - name: TaskDi
+      - name: Case
+
+  # ── Source 2: DW_SP_CWA (cross-database — was [DW_SP_CWA].[cwa].[...]) ──────
+  # Same server, different database. dbt will emit [DW_SP_CWA].[cwa].[TableName]
+  # which matches the original 3-part naming in the query.
+  - name: cwa_dw
+    database: DW_SP_CWA
+    schema: cwa
+    description: SP Data Warehouse CWA layer on sql-ecb.scalepoint.lan
+    tables:
+      - name: Case
+      - name: Report
+      - name: ReportLine
+      - name: Service
+      - name: ServiceProvider

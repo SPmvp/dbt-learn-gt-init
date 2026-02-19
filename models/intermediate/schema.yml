@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: int_financial_document_first_occurrence
+    description: >
+      All-time first occurrence date per CaseId for Nemhandel and MaterialSupplier.
+      Intentionally has no date filter — billing period filtering happens downstream.
+    columns:
+      - name: CaseId
+        description: Foreign key to cwa.Case
+        tests:
+          - not_null
+      - name: item
+        description: "'Nemhandel' or 'MaterialSupplier'"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Nemhandel', 'MaterialSupplier']
+      - name: first_date
+        description: Earliest IssueDate for this CaseId + item combination
+        tests:
+          - not_null
+    tests:
+      # A case should only appear once per item type
+      - unique:
+          column_name: "CaseId || '-' || item"
+
+  - name: fct_financial_document_billing
+    description: >
+      One billing row per CaseId per item where the first occurrence falls within
+      the configured billing period (billing_start_date / billing_end_date vars).
+    columns:
+      - name: claimnumber
+        description: Case number from cwa.Case
+      - name: tenant
+        tests: [not_null]
+      - name: price_code
+        description: "'h37' for Nemhandel, 'h34' for MaterialSupplier"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['h37', 'h34']
+      - name: value
+        description: Always 1 — represents a single billing unit

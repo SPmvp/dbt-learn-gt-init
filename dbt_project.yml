@@ -32,6 +32,14 @@ clean-targets:         # directories to be removed by `dbt clean`
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
+vars:
+  # Optional overrides — if omitted, billing_period macros default to:
+  #   start = Jan 1 of (current_year - 2)
+  #   end   = Jan 1 of (current_year + 1)  [exclusive]
+  # Example: dbt run --vars '{billing_start_date: 2025-01-01, billing_end_date: 2026-01-01}'
+  billing_start_date:   # leave blank to use dynamic default
+  billing_end_date:     # leave blank to use dynamic default
+
 models:
   jaffle_shop:
     +materialized: view
