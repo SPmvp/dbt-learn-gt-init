@@ -2,27 +2,16 @@ version: 2
 
 sources:
 
-  # ── Source 1: CWA (default database — no prefix needed in queries) ───────────
-  # Server:   sql-ecb.scalepoint.lan
-  # Database: CWA  (same as dbt target database, so no override needed)
+  # ── Source: DW_SP_CWA (biprod-gendw01.bi.scalepoint.lan\scalepoint) ──────────
+  # All CWA tables live in the cwa schema of DW_SP_CWA on this server.
   - name: cwa
-    database: CWA
+    database: DW_SP_CWA
     schema: cwa
-    description: Live CWA operational database on sql-ecb.scalepoint.lan
+    description: CWA data warehouse layer on biprod-gendw01.bi.scalepoint.lan\scalepoint
     tables:
       - name: FinancialDocument
       - name: FinancialDocumentLine
       - name: TaskDi
-      - name: Case
-
-  # ── Source 2: DW_SP_CWA (cross-database — was [DW_SP_CWA].[cwa].[...]) ──────
-  # Same server, different database. dbt will emit [DW_SP_CWA].[cwa].[TableName]
-  # which matches the original 3-part naming in the query.
-  - name: cwa_dw
-    database: DW_SP_CWA
-    schema: cwa
-    description: SP Data Warehouse CWA layer on sql-ecb.scalepoint.lan
-    tables:
       - name: Case
       - name: Report
       - name: ReportLine
